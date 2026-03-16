@@ -6,7 +6,7 @@ Answer each question in 3 to 5 sentences. Be specific and honest about what actu
 
 - What did the game look like the first time you ran it?
 - List at least two concrete bugs you noticed at the start  
-  (for example: "the secret number kept changing" or "the hints were backwards").
+  (for example: "the hints were backwards").
 
 When I first ran the app, it looked functional, but the game behavior was inconsistent and unfair. I confirmed that Easy mode could still reveal secrets above 20 after resets, because the New Game logic regenerated the secret in 1 to 100 instead of using the selected difficulty range. I also saw attempt counting issues because attempts started at 1 and were incremented before input validation, so the attempts-left display felt off. Another major bug was that guess hints were logically reversed, and an alternating type conversion on the secret could cause misleading comparisons.
 ---
@@ -34,9 +34,7 @@ I treated a bug as fixed only if the behavior was corrected in code and covered 
 
 ## 4. What did you learn about Streamlit and state?
 
-- In your own words, explain why the secret number kept changing in the original app.
 - How would you explain Streamlit "reruns" and session state to a friend who has never used Streamlit?
-- What change did you make that finally gave the game a stable secret number?
 
 The secret number felt unstable because key values were being reinitialized in ways that did not consistently respect the selected difficulty or a complete reset flow. In Streamlit, almost the whole script reruns on each interaction, so local variables are recalculated unless you store durable values in `st.session_state`. I would explain reruns as "the script restarts on every click, but session state is your memory between runs." The fix that stabilized game behavior was centralizing reset logic in one function and always creating the secret with the current difficulty range, plus resetting when the user changes difficulty.
 
